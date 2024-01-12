@@ -1,6 +1,6 @@
-package com.joshaby.greetingservice.controller;
+package com.joshaby.greetingservice.controllers;
 
-import com.joshaby.greetingservice.dto.Greeting;
+import com.joshaby.greetingservice.entities.Greeting;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

@@ -1,4 +1,4 @@
-package com.joshaby.greetingservice.dto;
+package com.joshaby.greetingservice.entities;
 
 public class Greeting {
 
