@@ -2,8 +2,15 @@ spring:
   application:
     name: config-server
 
-  profiles:
-    active: native
+#  profiles:
+#    active: native
+
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/leandrocgsi/erudio-config-server.git
+          search-paths: "greeting-service*"
 
 server:
   port: 8888
