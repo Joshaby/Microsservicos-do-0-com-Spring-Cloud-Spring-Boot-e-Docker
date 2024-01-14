@@ -1,0 +1,4 @@
+rootProject.name = 'Microsservicos-do-0-com-Spring-Cloud-Spring-Boot-e-Docker'
+
+include '04-config-server'
+include '04-greeting-service'
