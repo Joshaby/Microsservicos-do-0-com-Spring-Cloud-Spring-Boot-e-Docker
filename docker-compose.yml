@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  postgres-docker:
+    image: postgres:16.1-alpine
+    container_name: postgres-microservicos-spring-boot-cloud-docker
+    environment:
+      POSTGRES_PASSWORD: 1234567
+    ports:
+      - 5432:5432
+    networks:
+      - network-microservicos-spring-boot-cloud-docker
+
+  pgadmin-docker:
+    image: dpage/pgadmin4:8.2
+    container_name: pgadmin-microservicos-spring-boot-cloud-docker
+    environment:
+      PGADMIN_DEFAULT_EMAIL: joshaby@example.com
+      PGADMIN_DEFAULT_PASSWORD: 1234567
+    ports:
+      - 5050:80
+    depends_on:
+      postgres-docker:
+        condition: service_started
+    networks:
+      - network-microservicos-spring-boot-cloud-docker
+
+networks:
+  network-microservicos-spring-boot-cloud-docker:
+    driver: bridge
