@@ -8,23 +8,33 @@ spring:
     password: 1234567
 
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
         jdbc:
           lob:
             non_contextual_creation: true
+#        hbm2ddl:
+#          delimiter: ;
+#      jakarta:
+#        persistence:
+#          schema-generation:
+#            create-source: metadata
+#            scripts:
+#              action: create
+#              create-target: create.sql
 
     hibernate:
       ddl-auto: update
 
     show-sql: true
 
+    open-in-view: false
+
   flyway:
-    url: jdbc:postgresql://localhost:5432/
-    schemas: exchange-service
-    user: root
-    password: admin123
+    url: jdbc:postgresql://localhost:5432/exchange-service
+    user: postgres
+    password: 1234567
+
 
 server:
   port: 8000
