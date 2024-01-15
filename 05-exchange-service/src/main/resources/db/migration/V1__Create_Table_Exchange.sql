@@ -1,6 +1,1 @@
-﻿CREATE TABLE exchange (
-  id INT(10) AUTO_INCREMENT PRIMARY KEY,
-  from_currency CHAR(3) NOT NULL,
-  to_currency CHAR(3) NOT NULL,
-  conversion_factor decimal(65,2) NOT NULL
-);
+﻿create table exchange (conversion_factor numeric(38,2) not null, from_currency varchar(3) not null, to_currency varchar(3) not null, id bigserial not null, primary key (id));
