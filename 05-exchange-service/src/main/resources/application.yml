@@ -2,5 +2,31 @@ spring:
   application:
     name: exchange-service
 
+  datasource:
+    url: jdbc:postgresql://localhost:5432/exchange-service
+    username: postgres
+    password: 1234567
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+    hibernate:
+      ddl-auto: update
+
+    show-sql: true
+
+  flyway:
+    url: jdbc:postgresql://localhost:5432/
+    schemas: exchange-service
+    user: root
+    password: admin123
+
 server:
   port: 8000
+
+
