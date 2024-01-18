@@ -22,8 +22,7 @@ public class Book {
     @Column(nullable = false, length = 180)
     private String author;
 
-    @Column(nullable = false)
-    @Temporal(TemporalType.DATE)
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime launchDate;
 
     @Column(nullable = false)
