@@ -35,6 +35,11 @@ spring:
     user: postgres
     password: 1234567
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
 server:
   port: 8000
 
