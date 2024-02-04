@@ -1,6 +1,7 @@
 package com.joshaby.BookService.controllers;
 
 import com.joshaby.BookService.models.Book;
+import com.joshaby.BookService.proxy.ExchangeProxy;
 import com.joshaby.BookService.repositories.BookRepository;
 import com.joshaby.BookService.controllers.response.Exchange;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 
 @RestController
@@ -22,6 +24,8 @@ public class BookController {
     private final Environment environment;
 
     private final BookRepository repository;
+
+    private final ExchangeProxy proxy;
 
     @GetMapping("/{id}/{currency}")
     public Book find(@PathVariable Long id, @PathVariable String currency) {
@@ -35,9 +39,12 @@ public class BookController {
             put("from", "USD");
             put("to", currency);
         }};
-        ResponseEntity<Exchange> response = new RestTemplate()
-                .getForEntity("http://localhost:8000/exchange-service/{amount}/{from}/{to}", Exchange.class, params);
-        book.setPrice(response.getBody().getConvertedValue().doubleValue());
+//        ResponseEntity<Exchange> response = new RestTemplate()
+//                .getForEntity("http://localhost:8000/exchange-service/{amount}/{from}/{to}", Exchange.class, params);
+
+        Exchange response = proxy.find(BigDecimal.valueOf(book.getPrice()), "USD", currency);
+
+        book.setPrice(response.getConvertedValue().doubleValue());
         return book;
     }
 }
