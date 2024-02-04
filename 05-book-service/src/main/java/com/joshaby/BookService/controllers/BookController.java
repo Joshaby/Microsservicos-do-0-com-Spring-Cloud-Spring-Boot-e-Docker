@@ -6,12 +6,10 @@ import com.joshaby.BookService.repositories.BookRepository;
 import com.joshaby.BookService.controllers.response.Exchange;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -32,18 +30,10 @@ public class BookController {
 
         String port = environment.getProperty("local.server.port");
         Book book = repository.findById(id).orElseThrow(() -> new RuntimeException("Book not found"));
-        book.setEnvironment(port);
-
-        HashMap<String, String> params = new HashMap<>(){{
-            put("amount", book.getPrice().toString());
-            put("from", "USD");
-            put("to", currency);
-        }};
-//        ResponseEntity<Exchange> response = new RestTemplate()
-//                .getForEntity("http://localhost:8000/exchange-service/{amount}/{from}/{to}", Exchange.class, params);
 
         Exchange response = proxy.find(BigDecimal.valueOf(book.getPrice()), "USD", currency);
 
+        book.setEnvironment("Book port: " + port + " Exchange port: " + response.getEnvironment());
         book.setPrice(response.getConvertedValue().doubleValue());
         return book;
     }
