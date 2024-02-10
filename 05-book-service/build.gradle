@@ -37,6 +37,8 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 	runtimeOnly 'org.postgresql:postgresql'
 	runtimeOnly 'org.flywaydb:flyway-database-postgresql'
+	compileOnly 'io.github.resilience4j:resilience4j-spring-boot3'
+	compileOnly 'org.springframework.boot:spring-boot-starter-aop'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
