@@ -48,3 +48,5 @@ resilience4j:
     instances:
       default:
         max-attempts: 5
+        wait-duration: 1s
+        enable-exponential-backoff: true
