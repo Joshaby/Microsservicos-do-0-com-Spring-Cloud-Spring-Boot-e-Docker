@@ -42,3 +42,9 @@ eureka:
 
 server:
   port: 8100
+
+resilience4j:
+  retry:
+    instances:
+      default:
+        max-attempts: 5
