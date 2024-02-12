@@ -4,6 +4,8 @@ import com.joshaby.BookService.models.Book;
 import com.joshaby.BookService.proxy.ExchangeProxy;
 import com.joshaby.BookService.repositories.BookRepository;
 import com.joshaby.BookService.controllers.response.Exchange;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
+@Tag(name = "Book Endpoint")
 @RestController
 @RequestMapping("/book-service")
 @RequiredArgsConstructor
@@ -25,6 +28,7 @@ public class BookController {
 
     private final ExchangeProxy proxy;
 
+    @Operation(summary = "Find a specific book by your ID")
     @GetMapping("/{id}/{currency}")
     public Book find(@PathVariable Long id, @PathVariable String currency) {
 
