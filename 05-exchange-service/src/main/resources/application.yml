@@ -43,4 +43,8 @@ eureka:
 server:
   port: 8000
 
+springdoc:
+  api-docs:
+    path: /exchange-service/v3/api-docs
+
 

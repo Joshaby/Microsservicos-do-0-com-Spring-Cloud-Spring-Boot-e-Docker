@@ -9,3 +9,11 @@ eureka:
 
 server:
   port: 8765
+
+springdoc:
+  swagger-ui:
+    urls:
+      - url: /book-service/v3/api-docs
+        name: Book Service
+      - url: /exchange-service/v3/api-docs
+        name: Exchange Service
