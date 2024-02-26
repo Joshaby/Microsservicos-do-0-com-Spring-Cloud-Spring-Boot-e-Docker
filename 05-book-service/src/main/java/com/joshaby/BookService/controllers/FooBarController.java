@@ -17,7 +17,6 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @RequestMapping("/book-service")
 @Slf4j
-@Observed
 public class FooBarController {
 
     @Operation(summary = "Find a specific book by your ID")

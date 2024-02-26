@@ -47,6 +47,10 @@ management:
       exposure:
         include: '*'
 
+  tracing:
+    sampling:
+      probability: 1
+
 server:
   port: 8000
 
