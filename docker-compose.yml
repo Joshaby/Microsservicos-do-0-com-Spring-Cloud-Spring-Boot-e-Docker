@@ -2,30 +2,104 @@ version: "3.7"
 services:
   postgres-docker:
     image: postgres:16.1-alpine
-    container_name: postgres-microservicos-spring-boot-cloud-docker
+    container_name: postgres-spring-boot-cloud-docker
     environment:
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
       POSTGRES_PASSWORD: 1234567
     ports:
-      - 5432:5432
+      - "5432:5432"
     networks:
-      - network-microservicos-spring-boot-cloud-docker
+      - network-spring-boot-cloud-docker
 
   pgadmin-docker:
     image: dpage/pgadmin4:8.2
-    container_name: pgadmin-microservicos-spring-boot-cloud-docker
+    container_name: pgadmin-spring-boot-cloud-docker
     environment:
       PGADMIN_DEFAULT_EMAIL: joshaby@example.com
       PGADMIN_DEFAULT_PASSWORD: 1234567
     ports:
-      - 5050:80
+      - "5050:80"
     depends_on:
       postgres-docker:
         condition: service_started
     networks:
-      - network-microservicos-spring-boot-cloud-docker
+      - network-spring-boot-cloud-docker
+
+  zipkin:
+    image: openzipkin/zipkin:latest
+    container_name: openzipkin-spring-boot-cloud-docker
+    ports:
+      - "9411:9411"
+    networks:
+      - network-spring-boot-cloud-docker
+
+  naming-server:
+    container_name: naming-server
+    build:
+      context: 06-naming-server
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+    networks:
+      - network-spring-boot-cloud-docker
+
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: 06-api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8765:8765"
+    depends_on:
+      naming-server:
+        condition: service_started
+      zipkin:
+        condition: service_started
+    environment:
+      - NAMING_SERVER_URL=naming-server
+      - ZIPKIN_URL=openzipkin-spring-boot-cloud-docker
+    networks:
+      - network-spring-boot-cloud-docker
+
+  exchange-service:
+    container_name: exchange-service
+    build:
+      context: 05-exchange-service
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      api-gateway:
+        condition: service_started
+      postgres-docker:
+        condition: service_started
+    environment:
+      - NAMING_SERVER_URL=naming-server
+      - ZIPKIN_URL=openzipkin-spring-boot-cloud-docker
+      - POSTGRES_URL=postgres-spring-boot-cloud-docker
+    networks:
+      - network-spring-boot-cloud-docker
+
+  book-service:
+    container_name: book-service
+    build:
+      context: 05-book-service
+      dockerfile: Dockerfile
+    ports:
+      - "8100:8100"
+    depends_on:
+      api-gateway:
+        condition: service_started
+      postgres-docker:
+        condition: service_started
+    environment:
+      - NAMING_SERVER_URL=naming-server
+      - ZIPKIN_URL=openzipkin-spring-boot-cloud-docker
+      - POSTGRES_URL=postgres-spring-boot-cloud-docker
+    networks:
+      - network-spring-boot-cloud-docker
 
 networks:
-  network-microservicos-spring-boot-cloud-docker:
+  network-spring-boot-cloud-docker:
     driver: bridge

@@ -5,7 +5,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://${NAMING_SERVER_URL}:8761/eureka
 
 server:
   port: 8765
@@ -20,6 +20,10 @@ management:
   tracing:
     sampling:
       probability: 1
+
+  zipkin:
+    tracing:
+      endpoint: http://${ZIPKIN_URL}:9411/api/v2/spans
 
 springdoc:
   swagger-ui:
