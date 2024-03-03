@@ -33,7 +33,7 @@ jobs:
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v3
 
-      - name: Build with Gradle
+      - name: Build all subprojects with Gradle
         run: ./06-naming-server/gradlew build -x test --parallel
 
       - name: Build Eureka Naming Server Container Image and push
@@ -43,3 +43,23 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/06-naming-server:latest
 
+      - name: Build API Gateway Container Image and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./06-api-gateway
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/06-api-gateway:latest
+
+      - name: Build Book Service Container Image and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./05-book-service
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/05-book-service:latest
+
+      - name: Build Exchange Service Container Image and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./05-exchange-service
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/05-exchange-service:latest
